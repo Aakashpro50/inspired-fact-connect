@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inspired Fact - Instagram Connect</title>
+<style>
+  body{font-family:system-ui,-apple-system,sans-serif;background:#0b1020;color:#eee;max-width:640px;margin:48px auto;padding:0 16px;line-height:1.5}
+  h1{font-size:22px}
+  textarea{width:100%;height:110px;font-size:14px;border-radius:10px;padding:10px;background:#161d33;color:#eee;border:1px solid #334}
+  button{font-size:18px;font-weight:600;padding:14px 20px;border-radius:12px;border:0;background:#4f7cff;color:#fff;width:100%;margin-top:16px}
+</style>
+</head>
+<body>
+<h1>Inspired Fact - Instagram Connect</h1>
+<p id="msg">Neeche diya poora code copy karke WhatsApp par bhej do. Bas, tumhara kaam ho gaya.</p>
+<textarea id="out" readonly></textarea>
+<button id="copy">COPY KARO</button>
+<script>
+var params = new URLSearchParams(location.search);
+var code = params.get('code');
+var err = params.get('error_description') || params.get('error');
+var out = document.getElementById('out');
+if (code) {
+  out.value = code;
+} else if (err) {
+  out.value = 'ERROR: ' + err;
+  document.getElementById('msg').textContent = 'Kuch gadbad hui - yeh error WhatsApp par bhej do:';
+} else {
+  out.value = location.href;
+}
+document.getElementById('copy').onclick = function () {
+  out.focus(); out.select();
+  function done(){ document.getElementById('copy').textContent = 'COPY HO GAYA - ab WhatsApp par paste kar do'; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(out.value).then(done, function(){ document.execCommand('copy'); done(); });
+  } else {
+    document.execCommand('copy'); done();
+  }
+};
+</script>
+</body>
+</html>
